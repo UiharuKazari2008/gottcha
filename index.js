@@ -17,7 +17,7 @@ const logger2 = new graylog2.graylog({
     servers: [systemglobal.LogServer[1]],
     hostname: os.hostname(), // the name of this host
                              // (optional, default: os.hostname())
-    facility: 'API-Server',     // the facility for these log messages
+    facility: 'Gotcha-IO',     // the facility for these log messages
     // (optional, default: "Node.js")
     bufferSize: 1350         // max UDP packet size, should never exceed the
                              // MTU of your system (optional, default: 1400)
