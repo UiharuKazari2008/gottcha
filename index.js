@@ -4,10 +4,7 @@ const graylog2 = require("graylog2");
 const os = require('os');
 const colors = require('colors');
 const logger = new graylog2.graylog({
-    servers: [{
-        'host': systemglobal.LogServer,
-        port: 5544
-    }],
+    servers: systemglobal.LogServer,
     hostname: os.hostname(), // the name of this host
                              // (optional, default: os.hostname())
     facility: 'Gotcha-IO',     // the facility for these log messages
