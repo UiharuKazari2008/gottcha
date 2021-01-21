@@ -172,7 +172,7 @@ discordClient.on("ready", () => {
 });
 discordClient.on("error", (err) => {
     printLine("Discord", "Shard Error, Rebooting...", "error", err)
-    console.log(`${err.message}`.bgRed)
+    console.log(err)
     discordClient.connect()
 });
 
