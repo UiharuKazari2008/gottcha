@@ -16,6 +16,9 @@ const logger = new graylog2.graylog({
                              // MTU of your system (optional, default: 1400)
 });
 
+let init = 0;
+let selfstatic = {};
+
 async function printLine(proccess, text, level, object, object2) {
     let logObject = {}
     let logClient = "Unknown"
@@ -109,9 +112,6 @@ const discordClient = new eris.CommandClient(systemglobal.DiscordToken, {
     restMode: true,
 });
 
-let init = 0;
-let selfstatic = {};
-
 function refreshLocalCache() {
 
 }
@@ -143,7 +143,7 @@ discordClient.on("ready", () => {
             name: 'you!',
             type: 2
         })
-    }, 1000)
+    }, 30000)
 });
 discordClient.on("error", (err) => {
     printLine("Discord", "Shard Error, Rebooting...", "error", err)
