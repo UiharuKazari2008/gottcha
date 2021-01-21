@@ -3,18 +3,32 @@ const eris = require('eris');
 const graylog2 = require("graylog2");
 const os = require('os');
 const colors = require('colors');
-const logger = new graylog2.graylog({
-    servers: systemglobal.LogServer,
+
+const logger1 = new graylog2.graylog({
+    servers: [systemglobal.LogServer[0]],
     hostname: os.hostname(), // the name of this host
                              // (optional, default: os.hostname())
-    facility: 'Gotcha-IO',     // the facility for these log messages
+    facility: 'API-Server',     // the facility for these log messages
+    // (optional, default: "Node.js")
+    bufferSize: 1350         // max UDP packet size, should never exceed the
+                             // MTU of your system (optional, default: 1400)
+});
+const logger2 = new graylog2.graylog({
+    servers: [systemglobal.LogServer[1]],
+    hostname: os.hostname(), // the name of this host
+                             // (optional, default: os.hostname())
+    facility: 'API-Server',     // the facility for these log messages
     // (optional, default: "Node.js")
     bufferSize: 1350         // max UDP packet size, should never exceed the
                              // MTU of your system (optional, default: 1400)
 });
 
-let init = 0;
-let selfstatic = {};
+logger1.on('error', function (error) {
+    console.error('Error while trying to write to graylog host NJA:'.red, error);
+});
+logger2.on('error', function (error) {
+    console.error('Error while trying to write to graylog host END:'.red, error);
+});
 
 async function printLine(proccess, text, level, object, object2) {
     let logObject = {}
@@ -51,31 +65,39 @@ async function printLine(proccess, text, level, object, object2) {
         }
     }
     if (level === "warn") {
-        logger.warning(logString, logObject)
+        logger1.warning(logString, logObject)
+        logger2.warning(logString, logObject)
         console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.black.bgYellow)
     } else if (level === "error") {
-        logger.error(logString, logObject)
+        logger1.error(logString, logObject)
+        logger2.error(logString, logObject)
         console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.black.bgRed)
     } else if (level === "critical") {
-        logger.critical(logString, logObject)
+        logger1.critical(logString, logObject)
+        logger2.critical(logString, logObject)
         console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.bgMagenta)
     } else if (level === "alert") {
-        logger.alert(logString, logObject)
+        logger1.alert(logString, logObject)
+        logger2.alert(logString, logObject)
         console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.red)
     } else if (level === "emergency") {
-        logger.emergency(logString, logObject)
+        logger1.emergency(logString, logObject)
+        logger2.emergency(logString, logObject)
         console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.bgMagenta)
         sleep(250).then(() => {
             process.exit(4);
         })
     } else if (level === "notice") {
-        logger.notice(logString, logObject)
+        logger1.notice(logString, logObject)
+        logger2.notice(logString, logObject)
         console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.green)
     } else if (level === "alert") {
-        logger.alert(logString, logObject)
+        logger1.alert(logString, logObject)
+        logger2.alert(logString, logObject)
         console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.green)
     } else if (level === "debug") {
-        logger.debug(logString, logObject)
+        logger1.debug(logString, logObject)
+        logger2.debug(logString, logObject)
         if (text.includes("New Message: ") || text.includes("Reaction Added: ")) {
             console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.black.bgCyan)
         } else if (text.includes('Message Deleted: ') || text.includes('Reaction Removed: ')) {
@@ -86,17 +108,20 @@ async function printLine(proccess, text, level, object, object2) {
             console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.gray)
         }
     } else if (level === "info") {
-        logger.info(logString, logObject)
+        logger1.info(logString, logObject)
+        logger2.info(logString, logObject)
         if (text.includes("Sent message to ") || text.includes("Connected to Kanmi Exchange as ")) {
             console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.gray)
         } else {
             console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`.blue)
         }
     } else {
-        logger.error(logString, logObject)
+        logger1.error(logString, logObject)
+        logger2.error(logString, logObject)
         console.log(`[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}][${proccess}] ${text}`)
     }
 }
+
 printLine("Init", "Discord I/O", "info");
 printLine("Discord", "Settings up Discord bot", "debug")
 const discordClient = new eris.CommandClient(systemglobal.DiscordToken, {
@@ -112,6 +137,9 @@ const discordClient = new eris.CommandClient(systemglobal.DiscordToken, {
 function refreshLocalCache() {
 
 }
+
+let init = 0;
+let selfstatic = {};
 
 discordClient.on("ready", () => {
     printLine("Discord", "Connected successfully to Discord!", "debug")
