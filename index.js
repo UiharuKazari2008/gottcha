@@ -199,7 +199,13 @@ discordClient.on('messageUpdate', (msg, prevmsg) => {
         attachmentsURLs.push(attachment.url)
     })
     const text = msg.content.toString()
-    const text_old = prevmsg.content.toString()
+    let text_old = ''
+    try {
+        text_old = prevmsg.content.toString()
+    } catch {
+        text_old = 'unavailable'
+    }
+
     printLine("EditMessage", `Edited Message from ${msg.author.username}#${msg.author.discriminator} in ${msg.channel.name}: "${text}"`, 'info', {
         id: msg.id,
         guild: msg.guildID,
