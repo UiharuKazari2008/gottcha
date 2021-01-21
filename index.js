@@ -198,7 +198,9 @@ discordClient.on('messageUpdate', (msg, prevmsg) => {
     msg.attachments.forEach((attachment) => {
         attachmentsURLs.push(attachment.url)
     })
-    printLine("EditMessage", `Edited Message from ${msg.author.username}#${msg.author.discriminator} in ${msg.channel.name}: "${msg.content}"`, 'info', {
+    const text = msg.content.toString()
+    const text_old = prevmsg.content.toString()
+    printLine("EditMessage", `Edited Message from ${msg.author.username}#${msg.author.discriminator} in ${msg.channel.name}: "${text}"`, 'info', {
         id: msg.id,
         guild: msg.guildID,
         channel: msg.channel.id,
@@ -206,8 +208,8 @@ discordClient.on('messageUpdate', (msg, prevmsg) => {
         user: msg.author.id,
         username: `${msg.author.username}#${msg.author.discriminator}`,
         date: msg.timestamp,
-        content: msg.content,
-        prev_content: prevmsg.content,
+        content: text,
+        prev_content: text_old,
         attachments: attachmentsURLs
     })
 })
