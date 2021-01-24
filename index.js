@@ -181,7 +181,7 @@ discordClient.on("messageCreate", (msg) => {
     msg.attachments.forEach((attachment) => {
         attachmentsURLs.push(attachment.url)
     })
-    printLine("NewMessage", `New Message from ${msg.author.username}#${msg.author.discriminator} in ${msg.channel.name}: "${msg.content}"`, 'info', {
+    printLine("NewMessage", `New Message ${msg.id} from ${msg.author.username}#${msg.author.discriminator} in ${msg.channel.name}: "${msg.content}"`, 'info', {
         messageid: msg.id,
         guild: msg.guildID,
         channel: msg.channel.id,
@@ -206,7 +206,7 @@ discordClient.on('messageUpdate', (msg, prevmsg) => {
         text_old = 'unavailable'
     }
 
-    printLine("EditMessage", `Edited Message from ${msg.author.username}#${msg.author.discriminator} in ${msg.channel.name}: "${text}"`, 'info', {
+    printLine("EditMessage", `Edited Message ${msg.id} by ${msg.author.username}#${msg.author.discriminator} in ${msg.channel.name}: "${text}"`, 'info', {
         messageid: msg.id,
         guild: msg.guildID,
         channel: msg.channel.id,
@@ -220,7 +220,7 @@ discordClient.on('messageUpdate', (msg, prevmsg) => {
     })
 })
 discordClient.on("messageDelete", (msg) => {
-    printLine("DeleteMessage", `Deleted Message from ${msg.id} in ${msg.channel.name}`, 'info', {
+    printLine("DeleteMessage", `Deleted Message ${msg.id} in ${msg.channel.name}`, 'info', {
         messageid: msg.id,
         guild: msg.guildID,
         channel: msg.channel.id,
@@ -229,7 +229,7 @@ discordClient.on("messageDelete", (msg) => {
 })
 discordClient.on("messageDeleteBulk", (msg_array) => {
     msg_array.forEach((msg) => {
-        printLine("DeleteMessage", `Deleted Message from ${msg.id} in ${msg.channel.name}"`, 'info', {
+        printLine("DeleteMessage", `Deleted Message ${msg.id} in ${msg.channel.name}"`, 'info', {
             messageid: msg.id,
             guild: msg.guildID,
             channel: msg.channel.id,
