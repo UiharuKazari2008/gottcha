@@ -26,7 +26,7 @@ discordClient.on("ready", () => {
             console.error("Error getting self identification, this is a major issue".bgRed)
             console.error(er)
         });
-    discordClient.getMessages(process.argv[2], 10000)
+    discordClient.getMessages(process.argv[2], 100)
         .then((messages) => {
             messages.forEach((message) => {
                 console.log(`${message.id} "${message.content}"`)
