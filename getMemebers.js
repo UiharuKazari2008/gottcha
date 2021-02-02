@@ -33,10 +33,6 @@ discordClient.on("ready", () => {
                 console.log(`${member.id} - ${member.username} (${member.nick})`)
             })
         })
-        .then(() => {
-            console.log('Finished processing channel!')
-            process.exit(0)
-        })
         .catch((err) => {
             console.error(err);
             process.exit(1);
