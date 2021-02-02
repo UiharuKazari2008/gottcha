@@ -17,21 +17,16 @@ let selfstatic = {};
 
 discordClient.on("ready", () => {
     console.log("Connected successfully to Discord!");
-    discordClient.getSelf()
-        .then(function(data) {
-            selfstatic = data
-            console.log(`Using Account: ${selfstatic.username} (${selfstatic.id})`)
-        })
-        .catch((er) => {
-            console.error("Error getting self identification, this is a major issue".bgRed)
-            console.error(er)
-        });
     discordClient.getRESTGuildMembers(process.argv[2])
         .then((members) => {
             console.log(`Server Members : ${process.argv[2]}`)
             members.forEach((member) => {
                 console.log(`${member.id} - ${member.username} (${member.nick})`)
             })
+        })
+        .then(() => {
+            console.log('Finished processing channel!')
+            process.exit(0)
         })
         .catch((err) => {
             console.error(err);
