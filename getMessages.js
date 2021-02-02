@@ -27,6 +27,24 @@ discordClient.on("ready", () => {
             console.error(er)
         });
     discordClient.getMessages(process.argv[2])
+        .then((messages) => {
+            messages.forEach((message) => {
+                console.log(`${message.id} "${message.content}"`)
+                if (message.attachments && message.attachments.length > 0) {
+                    message.attachments.forEach((attachment) => {
+                        console.log(`Attachment: ${attachment.url}`)
+                    })
+                }
+            })
+        })
+        .then(() => {
+            console.log('Finished processing channel!')
+            process.exit(0)
+        })
+        .catch((err) => {
+            console.error(err);
+            process.exit(1);
+        })
 });
 discordClient.on("error", (err) => {
     console.error("Shard Error, Rebooting...")
