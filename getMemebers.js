@@ -25,7 +25,7 @@ discordClient.on("ready", () => {
             })
         })
         .then(() => {
-            console.log('Finished processing channel!')
+            console.log('Finished processing member list!')
             process.exit(0)
         })
         .catch((err) => {

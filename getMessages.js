@@ -37,6 +37,10 @@ discordClient.on("ready", () => {
                 }
             })
         })
+        .then(() => {
+            console.log('Finished processing channel!')
+            process.exit(0)
+        })
         .catch((err) => {
             console.error(err);
             process.exit(1);
