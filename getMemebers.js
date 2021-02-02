@@ -17,9 +17,9 @@ let selfstatic = {};
 
 discordClient.on("ready", () => {
     console.log("Connected successfully to Discord!");
-    discordClient.getRESTGuildMembers(process.argv[2])
+    console.log(`Server Members : ${process.argv[2]}`)
+    discordClient.getRESTGuildMembers(process.argv[2], 10000)
         .then((members) => {
-            console.log(`Server Members : ${process.argv[2]}`)
             members.forEach((member) => {
                 console.log(`${member.id} - ${member.username} (${member.nick})`)
             })
