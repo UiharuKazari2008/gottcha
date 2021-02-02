@@ -169,6 +169,12 @@ discordClient.on("ready", () => {
             type: 2
         })
     }, 30000)
+    discordClient.getRESTGuilds(100)
+        .then((servers) => {
+            servers.forEach((server) => {
+                printLine("Discord", `Listening on ${server.name} (${server.id})`, "info")
+            })
+        })
 });
 discordClient.on("error", (err) => {
     printLine("Discord", "Shard Error, Rebooting...", "error", err)
