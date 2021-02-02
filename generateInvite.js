@@ -32,6 +32,7 @@ discordClient.on("ready", () => {
     })
         .then((invite) => {
             console.log(`ChannelInvite created here : "${invite.code}"`);
+            process.exit(0);
         })
         .catch((er) => {
             console.error(er);
