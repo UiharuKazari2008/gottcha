@@ -172,7 +172,13 @@ discordClient.on("ready", () => {
     discordClient.getRESTGuilds(100)
         .then((servers) => {
             servers.forEach((server) => {
-                printLine("Discord", `Listening on ${server.name} (${server.id})`, "info")
+                printLine("Discord", `Listening on ${server.name} (${server.id})`, "info");
+                discordClient.getRESTGuildChannels(server.id)
+                    .then((channels) => {
+                        channels.forEach((channel) => {
+                            printLine("Discord", `Listening to channel ${channel.name} (${channel.id}) @ ${server.name} (${server.id})`, "info");
+                        })
+                    })
             })
         })
 });
