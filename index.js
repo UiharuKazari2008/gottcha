@@ -8,7 +8,7 @@ const logger1 = new graylog2.graylog({
     servers: [systemglobal.LogServer[0]],
     hostname: os.hostname(), // the name of this host
                              // (optional, default: os.hostname())
-    facility: 'API-Server',     // the facility for these log messages
+    facility: 'Gottcha',     // the facility for these log messages
     // (optional, default: "Node.js")
     bufferSize: 1350         // max UDP packet size, should never exceed the
                              // MTU of your system (optional, default: 1400)
@@ -17,7 +17,7 @@ const logger2 = new graylog2.graylog({
     servers: [systemglobal.LogServer[1]],
     hostname: os.hostname(), // the name of this host
                              // (optional, default: os.hostname())
-    facility: 'Gotcha-IO',     // the facility for these log messages
+    facility: 'Gottcha',     // the facility for these log messages
     // (optional, default: "Node.js")
     bufferSize: 1350         // max UDP packet size, should never exceed the
                              // MTU of your system (optional, default: 1400)
@@ -169,7 +169,7 @@ discordClient.on("ready", () => {
             type: 2
         })
     }, 30000)
-    discordClient.getRESTGuilds(100)
+    /*discordClient.getRESTGuilds(100)
         .then((servers) => {
             servers.forEach((server) => {
                 printLine("Discord", `Listening on ${server.name} (${server.id})`, "info");
@@ -180,7 +180,7 @@ discordClient.on("ready", () => {
                         })
                     })
             })
-        })
+        })*/
 });
 discordClient.on("error", (err) => {
     printLine("Discord", "Shard Error, Rebooting...", "error", err)
